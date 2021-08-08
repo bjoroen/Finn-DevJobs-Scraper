@@ -5,6 +5,8 @@
   "author": "bjoroen",
   "license": "MIT",
   "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cheerio": "^0.22.30",
     "@types/jest": "^26.0.24",
     "babel-jest": "^27.0.6",
     "jest": "^27.0.6",
@@ -18,5 +20,9 @@
     "start": "tsc && node dist/index.js",
     "dev": "nodemon --watch src/*.ts --exec ts-node src/index.ts",
     "formatter": "prettier --write src"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.10"
   }
 }
