@@ -1,14 +1,21 @@
+import * as cheerio from "cheerio";
+import * as https from "https";
+
 const axios = require("axios").default;
 
-export const getRequest = async (hostname: string) => {
-  return axios
-    .get(hostname)
-    .then((response) => {
-      return response;
-    })
-    .catch(console.error);
-};
+export class WebScraper {
+  _statusCode: number;
 
-getRequest("https://www.finn.no/").then((data) => {
-  console.log(data.status);
-});
+  async getRequest(url): Promise<any> {
+    new Promise((resolve, reject) => {
+      https.get(url, (res) => {
+        res.on("data", (data) => {
+          console.log(data.status);
+        });
+      });
+    });
+  }
+}
+
+let webScraper = new WebScraper();
+webScraper.getRequest("https://www.finn.no/");

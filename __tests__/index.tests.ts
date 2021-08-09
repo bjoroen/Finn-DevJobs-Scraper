@@ -1,7 +1,4 @@
-import axios from "axios";
-import * as http from "http";
 import { getRequest } from "../src";
-import * as request from "supertest";
 
 test("Should get status code 200 from website", async () => {
   const url: string = "https://www.finn.no/";
@@ -9,4 +6,10 @@ test("Should get status code 200 from website", async () => {
   await getRequest(url).then((data) => {
     expect(data.status).toBe(200);
   });
+});
+
+test("Should return the first job ad", async () => {
+  const urlJob: string =
+    "https://www.finn.no/job/fulltime/search.html?abTestKey=rerank&occupation=0.23&sort=PUBLISHED_DESC";
+  await getRequest(urlJob);
 });
