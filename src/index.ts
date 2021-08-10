@@ -1,21 +1,32 @@
-import * as cheerio from "cheerio";
-import * as https from "https";
+import { AxiosResponse } from "axios";
 
 const axios = require("axios").default;
 
 export class WebScraper {
-  _statusCode: number;
+  statusCode: number;
+  url: string;
 
-  async getRequest(url): Promise<any> {
-    new Promise((resolve, reject) => {
-      https.get(url, (res) => {
-        res.on("data", (data) => {
-          console.log(data.status);
-        });
-      });
+  constructor(hostname: string) {
+    this.url = hostname;
+    this.getRequest(this.url).then((r) => {
+      this.statusCode = r.status;
     });
+  }
+
+  async getRequest(url) {
+    return axios.get(url);
+  }
+
+  getData(res: any) {
+    const data = res.status;
+    console.log(data);
+    this.statusCode = data;
+  }
+
+  handleError(error) {
+    console.log(error + " - this error happened, deal with it");
   }
 }
 
-let webScraper = new WebScraper();
-webScraper.getRequest("https://www.finn.no/");
+let scraper = new WebScraper("https://www.finn.no/");
+console.log("Outside Class: " + scraper.statusCode);
