@@ -1,32 +1,22 @@
-import { AxiosResponse } from "axios";
+import * as cheerio from "cheerio";
 
 const axios = require("axios").default;
+import Cheerio = cheerio.Cheerio;
 
-export class WebScraper {
-  statusCode: number;
-  url: string;
-
-  constructor(hostname: string) {
-    this.url = hostname;
-    this.getRequest(this.url).then((r) => {
-      this.statusCode = r.status;
-    });
-  }
-
-  async getRequest(url) {
-    return axios.get(url);
-  }
-
-  getData(res: any) {
-    const data = res.status;
-    console.log(data);
-    this.statusCode = data;
-  }
-
-  handleError(error) {
-    console.log(error + " - this error happened, deal with it");
-  }
+export async function getRequest(url): Promise<any> {
+  return await axios.get(url);
 }
 
-let scraper = new WebScraper("https://www.finn.no/");
-console.log("Outside Class: " + scraper.statusCode);
+export function getHTML() {
+  const url =
+    "https://www.finn.no/job/fulltime/search.html?abTestKey=control&occupation=0.23&sort=RELEVANCE";
+
+  getRequest(url).then((response) => {
+    const html = response.data;
+    const $ = cheerio.load(html);
+    const mainContainer = $("#page-results article").children("div").last();
+    console.log(mainContainer);
+  });
+}
+
+getHTML();
