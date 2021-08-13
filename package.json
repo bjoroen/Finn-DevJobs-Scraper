@@ -20,7 +20,8 @@
   "scripts": {
     "start": "tsc && node dist/index.js",
     "dev": "nodemon --watch src/*.ts --exec ts-node src/index.ts",
-    "formatter": "prettier --write src"
+    "formatter": "prettier --write src",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.21.1",
