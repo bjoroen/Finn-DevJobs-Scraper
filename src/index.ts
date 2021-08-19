@@ -3,6 +3,7 @@ import * as cheerio from "cheerio";
 const axios = require("axios").default;
 import Cheerio = cheerio.Cheerio;
 import { stringify } from "ts-jest/dist/utils/json";
+import { writeToDB } from "./databaseFunctions";
 
 export interface links {
   kode: number;
@@ -36,19 +37,29 @@ export function getLinks(url) {
   });
 }
 
+let mainList: links[] = [];
 let pageNumberString: string = "";
 let numberOfPage: string = "";
 let num = 1;
 const url = `https://www.finn.no/job/fulltime/search.html?abTestKey=rerank&occupation=0.23${pageNumberString}${numberOfPage}&sort=PUBLISHED_DESC`;
 
-while (checkIfNextPageTrue === false) {
-  getLinks(url).then((res: links[]) => {
-    console.log("before if");
-    console.log(res.length);
+function getShit() {
+  while (checkIfNextPageTrue === false) {
+    getLinks(url).then((res: links[]) => {
+      res.forEach((data) => {
+        mainList.push(data);
+      });
+      writeToDB(mainList, "database.json");
+      return mainList;
+    });
+
     pageNumberString = "&page=";
     num++;
     numberOfPage = stringify(num);
-  });
+    if (num > 15) {
+      checkIfNextPageTrue = true;
+    }
+  }
 
-  checkIfNextPageTrue = true;
+  console.log("I did run");
 }

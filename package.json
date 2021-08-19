@@ -19,12 +19,13 @@
   },
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "dev": "nodemon --watch src/*.ts --exec ts-node src/index.ts",
+    "dev": "nodemon --watch src/*.ts --exec ts-node src/readingPages.ts",
     "formatter": "prettier --write src",
     "test": "jest"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "cheerio": "^1.0.0-rc.10"
+    "cheerio": "^1.0.0-rc.10",
+    "fetch": "^1.1.0"
   }
 }
