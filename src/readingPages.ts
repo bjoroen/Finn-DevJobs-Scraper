@@ -20,41 +20,55 @@ interface programmingLanguages {
 
 const linksArray: links[] = JSONdata as links[];
 
-const languageArray: programmingLanguages[] =
-  languageData as programmingLanguages[];
-
-let lowerCaseArray = [];
-for (let ele in languageArray) {
-  console.log(languageArray[ele].ProgrammingLanguage);
-  lowerCaseArray.push(languageArray[ele].ProgrammingLanguage);
-}
+const languageArray: string[] = [
+  "C",
+  "C++",
+  "Java",
+  "Python",
+  "C#",
+  ".Net",
+  "Visual Basic",
+  "Javascript",
+  "Typescript",
+  "Php",
+  "Assembly Language",
+  "node.js",
+];
 
 //Check if language is in text
-function languageInText(language: programmingLanguages[]) {
+function languageInText(language: string[]) {
   let text: string = "";
 
-  getRequest(linksArray[123].link).then((response) => {
+  getRequest(linksArray[243].link).then((response) => {
+    let reg: RegExp;
     const html = response.data;
     const $ = cheerio.load(html);
-    text = $(".import-decoration").text().toLowerCase();
+    text = $(".import-decoration").text();
 
     console.log(text);
     for (let element in language) {
-      if (language[element].ProgrammingLanguage != undefined) {
-        if (
-          text.includes(
-            " " + language[element].ProgrammingLanguage.toLowerCase() + "," ||
-              " " + language[element].ProgrammingLanguage.toLowerCase() + " " ||
-              " " + language[element].ProgrammingLanguage.toLowerCase() + "." ||
-              "," + language[element].ProgrammingLanguage.toLowerCase()
-          )
-        ) {
-          console.log(language[element].ProgrammingLanguage.toLowerCase());
-        }
+      reg = new RegExp(
+        "(?<!\\w)" +
+          language[element].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") +
+          "(?!\\w)",
+        "gi"
+      );
+
+      if (language[element] === "C") {
+        reg = new RegExp(
+          "(?<!\\S)" +
+            language[element].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") +
+            "(?!\\S)",
+          "gi"
+        );
+      }
+
+      if (reg.test(text)) {
+        console.log(language[element]);
       }
     }
   });
 }
 
 languageInText(languageArray);
-console.log(linksArray[123].link);
+console.log(linksArray[243].link);
