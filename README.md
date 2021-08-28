@@ -24,4 +24,4 @@ I was curios about Typescript and I was very curios about what programming langu
 - Php
 
 # The Results
-![Results](meta-chart%20.png)
+![Results](meta-chart.png)
