@@ -1,22 +1,10 @@
-//Read the data from "databse"
-
 // @ts-ignore
 import * as JSONdata from "../Database/database.json";
 // @ts-ignore
 import * as languageData from "../Database/languageFile.json";
 import * as cheerio from "cheerio";
-import { getRequest } from "./index";
-import { links } from "./index";
-import { getLanguages } from "./gettingLanguages";
-import { writeToDB } from "./databaseFunctions";
-
-interface programmingLanguages {
-  objectId: string;
-  ProgrammingLanguage: string;
-  Source: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { getRequest } from "./getLinks";
+import { links } from "./getLinks";
 
 const linksArray: links[] = JSONdata as links[];
 
@@ -26,49 +14,53 @@ const languageArray: string[] = [
   "Java",
   "Python",
   "C#",
-  ".Net",
   "Visual Basic",
   "Javascript",
   "Typescript",
   "Php",
   "Assembly Language",
-  "node.js",
 ];
 
 //Check if language is in text
-function languageInText(language: string[]) {
+function languageInText(language: string[], links: string) {
   let text: string = "";
 
-  getRequest(linksArray[243].link).then((response) => {
+  return getRequest(links).then((response) => {
     let reg: RegExp;
     const html = response.data;
     const $ = cheerio.load(html);
     text = $(".import-decoration").text();
+    let arrayOfLangNum: string[] = [];
 
-    console.log(text);
     for (let element in language) {
       reg = new RegExp(
         "(?<!\\w)" +
           language[element].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") +
-          "(?!\\w)",
+          "(?!\\w|\\+{2}|#)",
         "gi"
       );
 
-      if (language[element] === "C") {
-        reg = new RegExp(
-          "(?<!\\S)" +
-            language[element].replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&") +
-            "(?!\\S)",
-          "gi"
-        );
-      }
-
       if (reg.test(text)) {
-        console.log(language[element]);
+        arrayOfLangNum.push(language[element]);
       }
     }
+
+    return arrayOfLangNum;
   });
 }
 
-languageInText(languageArray);
-console.log(linksArray[243].link);
+let countMap = new Map();
+
+for (let ele in linksArray) {
+  languageInText(languageArray, linksArray[ele].link).then(async (res) => {
+    for (let resKey in res) {
+      if (countMap.has(res[resKey])) {
+        let currentValue: number = countMap.get(res[resKey]);
+        countMap.set(res[resKey], currentValue + 1);
+      } else {
+        countMap.set(res[resKey], 1);
+      }
+    }
+    console.log(countMap);
+  });
+}

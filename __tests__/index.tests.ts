@@ -1,4 +1,4 @@
-import { getLinks, getRequest } from "../src";
+import { getLinks, getRequest } from "../src/getLinks";
 
 const url: string = "https://www.finn.no/";
 
