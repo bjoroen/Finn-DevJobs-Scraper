@@ -37,13 +37,13 @@ export function getLinks(url) {
   });
 }
 
-let mainList: links[] = [];
-let pageNumberString: string = "";
-let numberOfPage: string = "";
-let num = 1;
-const url = `https://www.finn.no/job/fulltime/search.html?abTestKey=rerank&occupation=0.23${pageNumberString}${numberOfPage}&sort=PUBLISHED_DESC`;
+function getAllLinks() {
+  let mainList: links[] = [];
+  let pageNumberString: string = "";
+  let numberOfPage: string = "";
+  let num = 1;
+  const url = `https://www.finn.no/job/fulltime/search.html?abTestKey=rerank&occupation=0.23${pageNumberString}${numberOfPage}&sort=PUBLISHED_DESC`;
 
-function getShit() {
   while (checkIfNextPageTrue === false) {
     getLinks(url).then((res: links[]) => {
       res.forEach((data) => {
@@ -60,6 +60,4 @@ function getShit() {
       checkIfNextPageTrue = true;
     }
   }
-
-  console.log("I did run");
 }
