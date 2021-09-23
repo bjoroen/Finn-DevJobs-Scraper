@@ -1,7 +1,6 @@
 <h1>Finn DevJobs Scraper</h1>
 
-<p>This project was born from curiosity, 
-I was curios about Typescript and I was very curios about what programming languages mentioned the most times in all Finn.no job ads for developers</p>
+<p>I was curios about Typescript and I was very curios about what programming languages mentioned the most times in all Finn.no job ads for developers</p>
 
 
 ## Built With
