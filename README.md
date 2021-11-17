@@ -1,6 +1,6 @@
 <h1>Finn DevJobs Scraper</h1>
 
-<p>I was curios about Typescript and I was very curios about what programming languages mentioned the most times in all Finn.no job ads for developers</p>
+<p>My first Tpyescript porject, made it just to get my hands dirty with Typescript</p>
 
 
 ## Built With
@@ -22,5 +22,3 @@
 - Typescript
 - Php
 
-# The Results
-![Results](meta-chart.png)
