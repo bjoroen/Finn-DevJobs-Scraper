@@ -1,6 +1,6 @@
 <h1>Finn DevJobs Scraper</h1>
 
-<p>My first Tpyescript porject, made it just to get my hands dirty with Typescript</p>
+<p>My first Tpyescript project, I made it just to get my hands dirty with Typescript</p>
 
 
 ## Built With
